@@ -14,16 +14,16 @@ const userSchema = new mongoose.Schema({
     required: [ true, 'Password is required' ]
   },
   mobile_number: {
-    type: String,
+    type: Number,
     default: null
   },
   image: {
     type: String,
-    required: [ true, 'Image is required' ]
+    default:''
   },
   date_of_birth: {
     type: Date,
-    default: Date.now
+    default: null
   },
   subscribers_count:{
     type: Number,
@@ -31,15 +31,15 @@ const userSchema = new mongoose.Schema({
   },
   channel_description: {
     type: String,
-    default: null
+    default: ''
   },
   channel_banner_image: {
     type: String,
-    default: null
+    default: ''
   },
   channel_name: {
     type: String,
-    default: null
+    default: ''
   },
   increment_points:{
     type:Number,
@@ -55,7 +55,7 @@ const userSchema = new mongoose.Schema({
   },
   deleted_at: {
     type: Date,
-    default: ""
+    default: ''
   },
   isPremium: {
     type: Boolean,

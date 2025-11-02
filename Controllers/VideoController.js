@@ -38,6 +38,35 @@ exports.uploadvideo = async (req, res) => {
   }
 };
 
+exports.getallvideos=async(request,response)=>{
+  try {
+    // Fetch all videos and populate the videochannel field to get channel details
+    const videos = await video.find().populate("videochannel");
+    
+    if (!videos || videos.length === 0) {
+      return response.send({
+        status: false,
+        msg: "No videos found",
+        _data: []
+      });
+    }
+
+    const obj = {
+      status: true,
+      msg: "Videos fetched successfully",
+      _data: videos
+    };
+    return response.send(obj);
+  } catch (error) {
+    console.log('Get all videos error:', error);
+    return response.send({
+      status: false,
+      msg: "Something went wrong while fetching videos",
+      _data: error
+    });
+  }
+}
+
 exports.viewVideo=async(request,response)=>{
   try{
     const id = request.params.id || request.query.id;
