@@ -14,7 +14,7 @@ let videoSchema = new mongoose.Schema(
       required: true,
     },
     videochannel: {
-      type: mongoose.Schema.Types.ObjectId,
+      type: String,
       ref: "Users",
       required: true
     },

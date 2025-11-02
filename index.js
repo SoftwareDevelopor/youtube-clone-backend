@@ -26,6 +26,13 @@ app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
 app.use(cors())
 
+
+// Serve uploads folder statically
+app.use("/uploads/users", express.static('uploads/users'));
+app.use("/uploads/videos/thumbnails", express.static('uploads/videos/thumbnails'));
+app.use("/uploads/videos/videofile", express.static('uploads/videos/videofile'));
+
+
 io.on("Connection", (socket) => {
 
 
@@ -96,10 +103,6 @@ io.on("Connection", (socket) => {
   });
 });
 
-// Serve uploads folder statically
-app.use("/uploads/users", express.static('uploads/users'));
-app.use("/uploads/videos/thumbnails", express.static('uploads/videos/thumbnails'));
-app.use("/uploads/videos/videofile", express.static('uploads/videos/videofile'));
 
 
 app.get("/", (request, response) => {

@@ -4,6 +4,8 @@ const video = require("../Models/Video.js");
 const WatchLater = require("../Models/WatchLater.js");
 
 exports.uploadvideo = async (req, res) => {
+
+  console.log(req.files)
   // Check if files exist
   if (!req.files) {
     return res.send({ 
