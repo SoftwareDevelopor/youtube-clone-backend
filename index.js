@@ -114,11 +114,11 @@ server.listen(process.env.PORT, () => {
 })
 
 const dburl = process.env.DB_URL;
-const localdburl = process.env.dburl;
+// const localdburl = process.env.dburl;
 
 app.listen(process.env.PORT, () => {
   mongoose
-    .connect(localdburl)
+    .connect(dburl)
     .then(() => {
       console.log("MongoDB connection established successfully!");
     })
