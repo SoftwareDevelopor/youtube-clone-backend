@@ -41,7 +41,7 @@ module.exports = (app) => {
 
   videoroute.post("/uploadvideo", uploadFields, uploadvideo);
 
-  videoroute.post('/getallvideos', getallvideos)
+  videoroute.get('/getallvideos', getallvideos)
 
   videoroute.post("/view-video", viewVideo)
 
