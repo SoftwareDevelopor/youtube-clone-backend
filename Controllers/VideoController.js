@@ -103,44 +103,89 @@ exports.viewVideo=async(request,response)=>{
     })
   }
 }
+// const Like = require('../models/Like'); // Make sure to import your Like model
+// const video = require('../models/Video'); // Assuming your video model is imported as 'video'
 
-exports.incrementsLike=async(request,response)=>{
-  try {
-    const id=request.params.id || request.query.id
-    if(!id){
-      const obj={
-        status:false,
-        msg:"No any video found with this id..!",
-        _data:null
-      }
-      return response.send(obj)
+exports.incrementsLike = async (request, response) => {
+    // 1. Get IDs
+    const videoId = request.params.id || request.query.id;
+    
+    // --- Basic Input Validation ---
+    if (!videoId) {
+        return response.send({
+            status: false,
+            msg: "No video ID provided.",
+            _data: null
+        });
     }
 
 
-    const incrementResult = await video.findByIdAndUpdate(
-      id,
-      { $inc: { like: 1 } },
-      { new: true } // This option returns the updated document
-    ).populate("videochannel");
+    try {
+        // 2. Check if the 'like' entry already exists
+        const existingLike = await Like.findById(videoId);
 
-    if(!incrementResult){
-      const obj={
-        status:false,
-        msg:"Video not found",
-        _data: null
-      }
-      return response.send(obj)
+        let videoUpdate;
+        let message;
+        let isLiked;
+
+        if (existingLike) {
+            // --- A. UNLIKE (If the user already liked it) ---
+            await Like.deleteOne({ _id: existingLike._id });
+            
+            // Decrement the total like count on the Video document
+            videoUpdate = await video.findByIdAndUpdate(
+                videoId,
+                { $inc: { like: -1 } },
+                { new: true }
+            ).populate("videochannel");
+            
+            message = "Video unliked successfully.";
+            isLiked = false;
+
+        } else {
+            // --- B. LIKE (If the user has not liked it yet) ---
+            const newLike = new Like(videoId);
+            await newLike.save();
+
+            // Increment the total like count on the Video document
+            videoUpdate = await video.findByIdAndUpdate(
+                videoId,
+                { $inc: { like: 1 } },
+                { new: true }
+            ).populate("videochannel");
+
+            message = "Video liked and added to your liked videos.";
+            isLiked = true;
+        }
+
+        // 3. Handle Video Not Found
+        if (!videoUpdate) {
+            return response.send({
+                status: false,
+                msg: "Video not found.",
+                _data: null
+            });
+        }
+
+        // 4. Success Response
+        return response.send({
+            status: true,
+            msg: message,
+            _data: {
+                video: videoUpdate,
+                isLiked: isLiked // Indicate the new state of the like
+            }
+        });
+
+    } catch (error) {
+        console.error("Error in incrementsLike:", error);
+        return response.status(500).send({
+            status: false,
+            msg: "An error occurred while processing the like request.",
+            _data: null
+        });
     }
-    const obj={
-      status:true,
-      msg:"Like is incremented..!",
-      _data: incrementResult
-    }
-    return response.send(obj)
-  } catch (error) {
-    console.log(error)
-  }
-}
+};
 
 
 exports.downloadvideo=async(request,response)=>{
@@ -384,15 +429,13 @@ exports.watchLater = async (request, response) => {
 
     // Check if video is already in watch later
     const existingEntry = await WatchLater.findOne({ userId, videoId });
-    let result;
 
-    if (existingEntry) {
-      // If video exists in watch later, remove it
-      await WatchLater.findOneAndDelete({ userId, videoId });
-      result = {
-        isAdded: false,
-        msg: "Video removed from watch later"
-      };
+    if (!existingEntry) {
+      return response.send({
+        status:false,
+        msg:"Video does not in Watch later..!",
+        _data:null
+      })
     } else {
       // If video doesn't exist in watch later, add it
       const watchLater = new WatchLater({
@@ -436,4 +479,8 @@ exports.watchLater = async (request, response) => {
     });
   }
 };
+
+exports.addlikedvideo=async(request,response)=>{
+
+}
 
