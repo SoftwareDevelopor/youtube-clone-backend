@@ -143,44 +143,6 @@ exports.incrementsLike=async(request,response)=>{
 }
 
 
-exports.subscribe=async(request,response)=>{
-  try {
-    const id=request.params.id || request.query.id
-    if(!id){
-      const obj={
-        status:false,
-        msg:"No any video found with this id..!",
-        _data:null
-      }
-      return response.send(obj)
-    }
-
-
-    const subscribedResult = await video.findByIdAndUpdate(
-      id,
-      { $inc: { subscribers_count: 1 } },
-      { new: true } // This option returns the updated document
-    ).populate("videochannel");
-
-    if(!subscribedResult){
-      const obj={
-        status:false,
-        msg:"Video not found",
-        _data: null
-      }
-      return response.send(obj)
-    }
-    const obj={
-      status:true,
-      msg:"Channel is Subscribed..!",
-      _data: subscribedResult
-    }
-    return response.send(obj)
-  } catch (error) {
-    console.log(error)
-  }
-}
-
 exports.downloadvideo=async(request,response)=>{
   try {
     const id=request.params.id || request.query.id

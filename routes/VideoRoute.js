@@ -45,8 +45,6 @@ module.exports = (app) => {
 
   videoroute.post("/view-video", viewVideo)
 
-  videoroute.post("/subscribe",subscribe)
-
   videoroute.post('/incrementlikes', incrementsLike)
 
   videoroute.post('/download-video',downloadvideo)
