@@ -17,8 +17,8 @@ exports.uploadvideo = async (req, res) => {
   
   const data = {
     ...req.body,
-    thumbnail: req.files.thumbnail[0].path.replace(/opt/render/project/src,''),
-    videofile: req.files.videofile[0].path.replace(/opt/render/project/src,'')
+    thumbnail: req.files.thumbnail[0].path.replace('/opt/render/project/src',''),
+    videofile: req.files.videofile[0].path.replace('/opt/render/project/src','')
   };
   
   try {
@@ -27,7 +27,9 @@ exports.uploadvideo = async (req, res) => {
     const obj={
       status:true,
       msg:"Uploaded a video..!",
-      _data:result
+      _data:result,
+      thumbnail_image_path:`https://youtube-clone-backend-j5yz.onrender.com/uploads/users${result.thumbnail}`,
+      videofile_image_path:`https://youtube-clone-backend-j5yz.onrender.com/uploads/users${result.videofile}`
     }
     return res.send(obj)
   } catch (error) {
