@@ -41,11 +41,12 @@ exports.register = async (request, response) => {
     const insertdata = await user(newUser)
     const result = await insertdata.save()
     var token = jwt.sign({ userdata: result }, process.env.secret_key)
+    result.image=result.image.replace(/opt/render/project/src,'')
     const objectdata = {
       status: true,
       msg: "User registered successfully",
       _data: result,
-        image_url: `https://youtube-clone-backend-j5yz.onrender.com/uploads/users/${result.image}`,
+      image_url: `https://youtube-clone-backend-j5yz.onrender.com/uploads/users${result.image}`,
       token: token
     }
     return response.send(objectdata)

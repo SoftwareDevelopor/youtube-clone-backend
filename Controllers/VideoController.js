@@ -5,7 +5,7 @@ const WatchLater = require("../Models/WatchLater.js");
 
 exports.uploadvideo = async (req, res) => {
 
-  
+  console.log(req.files)
   // Check if files exist
   if (!req.files) {
     return res.send({ 
@@ -17,8 +17,8 @@ exports.uploadvideo = async (req, res) => {
   
   const data = {
     ...req.body,
-    thumbnail: req.files.thumbnail[0].filename,
-    videofile: req.files.videofile[0].filename
+    thumbnail: req.files.thumbnail[0].path.replace(/opt/render/project/src,''),
+    videofile: req.files.videofile[0].path.replace(/opt/render/project/src,'')
   };
   
   try {
@@ -27,8 +27,7 @@ exports.uploadvideo = async (req, res) => {
     const obj={
       status:true,
       msg:"Uploaded a video..!",
-      _data:result,
-      image_path:'https://youtube-clone-backend-j5yz.onrender.com'
+      _data:result
     }
     return res.send(obj)
   } catch (error) {
@@ -57,8 +56,7 @@ exports.getallvideos=async(request,response)=>{
     const obj = {
       status: true,
       msg: "Videos fetched successfully",
-      _data: videos,
-      image_path:'https://youtube-clone-backend-j5yz.onrender.com'
+      _data: videos
     };
     return response.send(obj);
   } catch (error) {
@@ -93,8 +91,7 @@ exports.viewVideo=async(request,response)=>{
     const obj={
       status:true,
       msg:"Video Found..!",
-      _data:updated,
-      image_path:'https://youtube-clone-backend-j5yz.onrender.com'
+    _data:updated
     }
     return response.send(obj)
   }catch(error){
