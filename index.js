@@ -28,12 +28,12 @@ app.use(cors())
 
 
 // Serve uploads folder statically
-app.use("/uploads/users", express.static('uploads/users'));
-app.use("/uploads/videos/thumbnails", express.static('uploads/videos/thumbnails'));
-app.use("/uploads/videos/videofile", express.static('uploads/videos/videofile'));
+app.use("/uploads/users", express.static(path.join(__dirname,'uploads/users')));
+app.use("/uploads/videos/thumbnails", express.static(path.join(__dirname,'uploads/videos/thumbnails')));
+app.use("/uploads/videos/videofile", express.static(path.join(__dirname,'uploads/videos/videofile')));
 
 
-io.on("Connection", (socket) => {
+io.on("connection", (socket) => {
 
 
   socket.on("join-room", (roomId, userId) => {
@@ -97,8 +97,7 @@ io.on("Connection", (socket) => {
     }
   });
 
-  socket.on("Disconnect", () => {
-
+  socket.on("disconnect", () => {
     socket.broadcast.emit("User connected", socket.id);
   });
 });
@@ -112,21 +111,18 @@ app.get("/", (request, response) => {
 require('./routes/AuthRoute.js')(app);
 require('./routes/VideoRoute.js')(app);
 
-server.listen(process.env.PORT, () => {
-  console.log('Server is running !')
-})
-
-const dburl = process.env.DB_URL;
-// const localdburl = process.env.dburl;
-
-app.listen(process.env.PORT, () => {
-  mongoose
-    .connect(dburl)
-    .then(() => {
-      console.log("MongoDB connection established successfully!");
-    })
-    .catch((error) => {
-      console.log("MongoDB connection error:", error);
+const dburl = process.env.DB_URL || process.env.DB_URL_LOCAL;
+// Connect to MongoDB first, then start the HTTP server (with socket.io)
+mongoose
+  .connect(dburl)
+  .then(() => {
+    console.log("MongoDB connection established successfully!");
+    const port = process.env.PORT || 3000;
+    server.listen(port, () => {
+      console.log(`Server is running on port ${port}`);
     });
-})
+  })
+  .catch((error) => {
+    console.log("MongoDB connection error:", error);
+  });
 

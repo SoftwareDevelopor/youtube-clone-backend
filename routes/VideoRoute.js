@@ -16,15 +16,15 @@ module.exports = (app) => {
   const storage = multer.diskStorage({
     destination: (req, file, cb) => {
       if (file.fieldname == 'videofile') {
-        cb(null, 'uploads/videos/videofile');
+        cb(null, path.join(__dirname, '..', 'uploads', 'videos', 'videofile'));
       } else if (file.fieldname == 'thumbnail') {
-        cb(null, 'uploads/videos/thumbnails');
+        cb(null, path.join(__dirname, '..', 'uploads', 'videos', 'thumbnails'));
       } else {
         cb(new Error('Invalid field name'), null);
       }
     },
     filename: (req, file, cb) => {
-      const uniqueSuffix = Math.random().toString(36).substring(2, 8);
+  const uniqueSuffix = Math.random().toString(36).substring(2, 8);
       // console.log('Original filename:', file.originalname);
       let ext = path.extname(file.originalname);
       cb(null, file.fieldname + '-' + uniqueSuffix + ext);
