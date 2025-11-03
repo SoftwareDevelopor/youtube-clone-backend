@@ -30,10 +30,13 @@ exports.register = async (request, response) => {
     password: hashedPassword,
   })
 
+  console.log(request.file)
+  
   if (request.file) {
     newUser.image = request.file.filename
   }
 
+  
   try {
     const insertdata = await user(newUser)
     const result = await insertdata.save()
