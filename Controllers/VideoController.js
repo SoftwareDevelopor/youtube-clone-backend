@@ -28,8 +28,8 @@ exports.uploadvideo = async (req, res) => {
       status:true,
       msg:"Uploaded a video..!",
       _data:result,
-      thumbnail_image_path:`https://youtube-clone-backend-j5yz.onrender.com/uploads/users${result.thumbnail}`,
-      videofile_image_path:`https://youtube-clone-backend-j5yz.onrender.com/uploads/users${result.videofile}`
+      thumbnail_image_path:`https://youtube-clone-backend-j5yz.onrender.com${result.thumbnail}`,
+      videofile_image_path:`https://youtube-clone-backend-j5yz.onrender.com${result.videofile}`
     }
     return res.send(obj)
   } catch (error) {
