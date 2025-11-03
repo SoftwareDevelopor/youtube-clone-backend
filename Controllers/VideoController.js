@@ -17,8 +17,8 @@ exports.uploadvideo = async (req, res) => {
   
   const data = {
     ...req.body,
-    thumbnail: req.files.thumbnail[0].path,
-    videofile: req.files.videofile[0].path
+    thumbnail: req.files.thumbnail[0].filename,
+    videofile: req.files.videofile[0].filename
   };
   
   try {
@@ -27,7 +27,8 @@ exports.uploadvideo = async (req, res) => {
     const obj={
       status:true,
       msg:"Uploaded a video..!",
-      _data:result
+      _data:result,
+      image_path:'https://youtube-clone-backend-j5yz.onrender.com'
     }
     return res.send(obj)
   } catch (error) {
@@ -56,7 +57,8 @@ exports.getallvideos=async(request,response)=>{
     const obj = {
       status: true,
       msg: "Videos fetched successfully",
-      _data: videos
+      _data: videos,
+      image_path:'https://youtube-clone-backend-j5yz.onrender.com'
     };
     return response.send(obj);
   } catch (error) {
@@ -91,7 +93,8 @@ exports.viewVideo=async(request,response)=>{
     const obj={
       status:true,
       msg:"Video Found..!",
-    _data:updated
+      _data:updated,
+      image_path:'https://youtube-clone-backend-j5yz.onrender.com'
     }
     return response.send(obj)
   }catch(error){

@@ -22,7 +22,7 @@ exports.register = async (request, response) => {
     return response.send(obj)
   }
 
-  const saltRounds = 10
+  let saltRounds=10
   const hashedPassword = await bcrypt.hash(request.body.password, saltRounds)
   const newUser = new user({
     name: request.body.name,
@@ -31,7 +31,7 @@ exports.register = async (request, response) => {
   })
 
   console.log(request.file)
-  
+
   if (request.file) {
     newUser.image = request.file.filename
   }
@@ -45,7 +45,7 @@ exports.register = async (request, response) => {
       status: true,
       msg: "User registered successfully",
       _data: result,
-      image_url: "http://localhost:3000/uploads/images/",
+        image_url: `https://youtube-clone-backend-j5yz.onrender.com/uploads/users/${result.image}`,
       token: token
     }
     return response.send(objectdata)
@@ -204,7 +204,8 @@ exports.updateprofile = async (request, response) => {
       status: true,
       msg: "User profile updated successfully",
       _data: userupdatedata,
-      token: token
+      token: token,
+      image_path:'https://youtube-clone-backend-j5yz.onrender.com'
     }
     return response.send(objectdata)
   } catch (error) {
