@@ -17,8 +17,8 @@ exports.uploadvideo = async (req, res) => {
   
   const data = {
     ...req.body,
-    thumbnail: req.files.thumbnail[0].path.replace('/opt/render/project/src',''),
-    videofile: req.files.videofile[0].path.replace('/opt/render/project/src','')
+    thumbnail: req.files.thumbnail[0].path,
+    videofile: req.files.videofile[0].path
   };
   
   try {
@@ -27,9 +27,7 @@ exports.uploadvideo = async (req, res) => {
     const obj={
       status:true,
       msg:"Uploaded a video..!",
-      _data:result,
-      thumbnail_image_path:`https://youtube-clone-backend-j5yz.onrender.com${result.thumbnail}`,
-      videofile_image_path:`https://youtube-clone-backend-j5yz.onrender.com${result.videofile}`
+      _data:result
     }
     return res.send(obj)
   } catch (error) {
@@ -137,6 +135,45 @@ exports.incrementsLike=async(request,response)=>{
       status:true,
       msg:"Like is incremented..!",
       _data: incrementResult
+    }
+    return response.send(obj)
+  } catch (error) {
+    console.log(error)
+  }
+}
+
+
+exports.subscribe=async(request,response)=>{
+  try {
+    const id=request.params.id || request.query.id
+    if(!id){
+      const obj={
+        status:false,
+        msg:"No any video found with this id..!",
+        _data:null
+      }
+      return response.send(obj)
+    }
+
+
+    const subscribedResult = await video.findByIdAndUpdate(
+      id,
+      { $inc: { subscribers_count: 1 } },
+      { new: true } // This option returns the updated document
+    ).populate("videochannel");
+
+    if(!subscribedResult){
+      const obj={
+        status:false,
+        msg:"Video not found",
+        _data: null
+      }
+      return response.send(obj)
+    }
+    const obj={
+      status:true,
+      msg:"Channel is Subscribed..!",
+      _data: subscribedResult
     }
     return response.send(obj)
   } catch (error) {
