@@ -33,7 +33,7 @@ exports.register = async (request, response) => {
   console.log(request.file)
 
   if (request.file) {
-    newUser.image = request.file.path
+    newUser.image = request.file.path.replace('/opt/render/project/src','')
   }
 
   
@@ -41,9 +41,7 @@ exports.register = async (request, response) => {
     const insertdata = await user(newUser)
     const result = await insertdata.save()
     var token = jwt.sign({ userdata: result }, process.env.secret_key)
-    if (result.image) {
-      result.image = result.image.replace('/opt/render/project/src', '')
-    }
+    
     const objectdata = {
       status: true,
       msg: "User registered successfully",
