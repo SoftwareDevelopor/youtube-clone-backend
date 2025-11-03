@@ -33,7 +33,7 @@ exports.register = async (request, response) => {
   console.log(request.file)
 
   if (request.file) {
-    newUser.image = request.file.filename
+    newUser.image = request.file.path
   }
 
   
