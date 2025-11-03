@@ -48,7 +48,7 @@ exports.register = async (request, response) => {
       status: true,
       msg: "User registered successfully",
       _data: result,
-      image_url: `https://youtube-clone-backend-j5yz.onrender.com/uploads/users${result.image}`,
+      image_url: `https://youtube-clone-backend-j5yz.onrender.com${result.image}`,
       token: token
     }
     return response.send(objectdata)
