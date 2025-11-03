@@ -468,6 +468,45 @@ exports.subscribe=async (request,response) => {
   }
 }
 
+
+exports.decrementsubscribe=async (request,response) => {
+  try {
+    const id=request.params.id || request.query.id
+    if(!id){
+      const obj={
+        status:false,
+        msg:"No any user id found..!",
+        _data:null
+      }
+      return response.send(obj)
+    }
+
+    const userdata=await user.findByIdAndUpdate(
+      {
+        _id:id
+      },{
+        $inc:{subscribers_count:-1}
+      }
+    )
+    if(!userdata){
+      const obj={
+        status:false,
+        msg:"No any user found..!",
+        _data:null
+      }
+      response.send(obj)
+    }
+    const obj={
+      status:true,
+      msg:"Someone is Unsubscribe Your Channel..!",
+      _data:userdata
+    }
+    response.send(obj)
+  } catch (error) {
+    console.log(error)
+  }
+}
+
 // // Register new user
 // exports.register = async (req, res) => {
 //     try {

@@ -1,5 +1,5 @@
 const express = require('express');
-const { register, login, viewProfile, updateprofile, changepassword, forgotPassword, resetPassword, incrementpoints, subscribe } = require('../Controllers/AuthController');
+const { register, login, viewProfile, updateprofile, changepassword, forgotPassword, resetPassword, incrementpoints, subscribe, decrementsubscribe } = require('../Controllers/AuthController');
 const authRouter = express.Router();
 const multer = require('multer')
 const path = require('path');
@@ -45,6 +45,8 @@ module.exports = (app) => {
     authRouter.post('/increment-points', incrementpoints)
 
     authRouter.post('/subscribe',subscribe)
+
+    authRouter.post('/decreasesubscribers', decrementsubscribe)
 
     authRouter.post('/hasFreeDownloadToday',hasFreeDownloadToday)
 
