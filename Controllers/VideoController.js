@@ -104,89 +104,87 @@ exports.viewVideo=async(request,response)=>{
     })
   }
 }
-// const Like = require('../models/Like'); // Make sure to import your Like model
-// const video = require('../models/Video'); // Assuming your video model is imported as 'video'
 
-exports.incrementsLike = async (request, response) => {
-    // 1. Get IDs
-    const videoId = request.params.id || request.query.id;
+// exports.incrementsLike = async (request, response) => {
+//     // 1. Get IDs
+//     const videoId = request.params.id || request.query.id;
     
-    // --- Basic Input Validation ---
-    if (!videoId) {
-        return response.send({
-            status: false,
-            msg: "No video ID provided.",
-            _data: null
-        });
-    }
+//     // --- Basic Input Validation ---
+//     if (!videoId) {
+//         return response.send({
+//             status: false,
+//             msg: "No video ID provided.",
+//             _data: null
+//         });
+//     }
 
 
-    try {
-        // 2. Check if the 'like' entry already exists
-        const existingLike = await Like.findById(videoId);
+//     try {
+//         // 2. Check if the 'like' entry already exists
+//         const existingLike = await Like.findById(videoId);
 
-        let videoUpdate;
-        let message;
-        let isLiked;
+//         let videoUpdate;
+//         let message;
+//         let isLiked;
 
-        if (existingLike) {
-            // --- A. UNLIKE (If the user already liked it) ---
-            await Like.deleteOne({ _id: existingLike._id });
+//         if (existingLike) {
+//             // --- A. UNLIKE (If the user already liked it) ---
+//             await Like.deleteOne({ _id: existingLike._id });
             
-            // Decrement the total like count on the Video document
-            videoUpdate = await video.findByIdAndUpdate(
-                videoId,
-                { $inc: { like: -1 } },
-                { new: true }
-            ).populate("videochannel");
+//             // Decrement the total like count on the Video document
+//             videoUpdate = await video.findByIdAndUpdate(
+//                 videoId,
+//                 { $inc: { like: -1 } },
+//                 { new: true }
+//             ).populate("videochannel");
             
-            message = "Video unliked successfully.";
-            isLiked = false;
+//             message = "Video unliked successfully.";
+//             isLiked = false;
 
-        } else {
-            // --- B. LIKE (If the user has not liked it yet) ---
-            const newLike = new Like(videoId);
-            await newLike.save();
+//         } else {
+//             // --- B. LIKE (If the user has not liked it yet) ---
+//             const newLike = new Like(videoId);
+//             await newLike.save();
 
-            // Increment the total like count on the Video document
-            videoUpdate = await video.findByIdAndUpdate(
-                videoId,
-                { $inc: { like: 1 } },
-                { new: true }
-            ).populate("videochannel");
+//             // Increment the total like count on the Video document
+//             videoUpdate = await video.findByIdAndUpdate(
+//                 videoId,
+//                 { $inc: { like: 1 } },
+//                 { new: true }
+//             ).populate("videochannel");
 
-            message = "Video liked and added to your liked videos.";
-            isLiked = true;
-        }
+//             message = "Video liked and added to your liked videos.";
+//             isLiked = true;
+//         }
 
-        // 3. Handle Video Not Found
-        if (!videoUpdate) {
-            return response.send({
-                status: false,
-                msg: "Video not found.",
-                _data: null
-            });
-        }
+//         // 3. Handle Video Not Found
+//         if (!videoUpdate) {
+//             return response.send({
+//                 status: false,
+//                 msg: "Video not found.",
+//                 _data: null
+//             });
+//         }
 
-        // 4. Success Response
-        return response.send({
-            status: true,
-            msg: message,
-            _data: {
-                video: videoUpdate,
-                isLiked: isLiked // Indicate the new state of the like
-            }
-        });
+//         // 4. Success Response
+//         return response.send({
+//             status: true,
+//             msg: message,
+//             _data: {
+//                 video: videoUpdate,
+//                 isLiked: isLiked // Indicate the new state of the like
+//             }
+//         });
 
-    } catch (error) {
-        console.error("Error in incrementsLike:", error);
-        return response.status(500).send({
-            status: false,
-            msg: "An error occurred while processing the like request.",
-            _data: null
-        });
-    }
-};
+//     } catch (error) {
+//         console.error("Error in incrementsLike:", error);
+//         return response.status(500).send({
+//             status: false,
+//             msg: "An error occurred while processing the like request.",
+//             _data: null
+//         });
+//     }
+// };
 
 
 exports.downloadvideo=async(request,response)=>{

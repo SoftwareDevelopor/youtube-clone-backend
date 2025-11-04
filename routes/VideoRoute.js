@@ -1,7 +1,7 @@
 const express = require("express");
 const multer = require('multer')
 const path = require('path');
-const { uploadvideo, viewVideo, incrementsLike, downloadvideo, watchLater, getallvideos } = require("../Controllers/VideoController");
+const { uploadvideo, viewVideo, downloadvideo, watchLater, getallvideos } = require("../Controllers/VideoController");
 const videoroute = express.Router();
 const uploads = multer({
   dest: "uploads/videos/videofile",
@@ -45,7 +45,7 @@ module.exports = (app) => {
 
   videoroute.post("/view-video", viewVideo)
 
-  videoroute.post('/incrementlikes', incrementsLike)
+  // videoroute.post('/incrementlikes', incrementsLike)
 
   videoroute.post('/download-video',downloadvideo)
 
