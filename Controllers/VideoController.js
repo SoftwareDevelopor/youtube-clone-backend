@@ -1,7 +1,7 @@
 
 
 const video = require("../Models/Video.js");
-const video = require("../Models/Video.js");
+
 const WatchLater = require("../Models/WatchLater.js");
 
 exports.uploadvideo = async (req, res) => {

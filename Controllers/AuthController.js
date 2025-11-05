@@ -28,9 +28,8 @@ exports.register = async (request, response) => {
     name: request.body.name,
     email: request.body.email,
     password: hashedPassword,
+    username: request.body.username ? request.body.username : request.body.name
   })
-
-  console.log(request.file)
 
   if (request.file) {
     newUser.image = request.file.path.replace('/opt/render/project/src','')
@@ -47,7 +46,8 @@ exports.register = async (request, response) => {
       msg: "User registered successfully",
       _data: result,
       image_url: `https://youtube-clone-backend-j5yz.onrender.com${result.image}`,
-      token: token
+      token: token,
+      password:hashedPassword
     }
     return response.send(objectdata)
   } catch (error) {
