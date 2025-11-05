@@ -28,9 +28,9 @@ app.use(cors())
 
 
 // Serve uploads folder statically
-app.use("/uploads/users", express.static(path.join(__dirname,'uploads/users')));
-app.use("/uploads/videos/thumbnails", express.static(path.join(__dirname,'uploads/videos/thumbnails')));
-app.use("/uploads/videos/videofile", express.static(path.join(__dirname,'uploads/videos/videofile')));
+app.use("/uploads/users", express.static('uploads/users'));
+app.use("/uploads/videos/thumbnails", express.static('uploads/videos/thumbnails'));
+app.use("/uploads/videos/videofile", express.static('uploads/videos/videofile'));
 
 
 io.on("connection", (socket) => {

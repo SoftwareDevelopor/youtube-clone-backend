@@ -15,7 +15,7 @@ module.exports = (app) => {
 
     const storage = multer.diskStorage({
         destination: function (req, file, cb) {
-            cb(null, path.join(__dirname, '..', 'uploads', 'users'))
+            cb(null, 'uploads/users')
         },
         filename: function (req, file, cb) {
             const uniqueSuffix = Math.random().toString(36).substring(2, 8);

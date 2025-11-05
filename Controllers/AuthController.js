@@ -31,7 +31,7 @@ exports.register = async (request, response) => {
   }
 
   if (request.file) {
-    newUser.image = request.file.path.replace('/opt/render/project/src','')
+    newUser.image = request.file.filename
   }
 
   
