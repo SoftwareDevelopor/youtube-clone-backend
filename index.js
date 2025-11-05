@@ -13,18 +13,18 @@ const app = express();
 
 const server = http.createServer(app);
 
-const io = socketio(server, {
-  cors: {
-    origin: ['https://youtube-clone-one-dun.vercel.app', 'https://youtube-clone-one-dun.vercel.app/'],
-    methods: ["GET", "POST"],
-    credentials: true
-  },
-});
+const corsoption={
+  origin:['https://youtube-clone-backend-j5yz.onrender.com/' , 'https://youtube-clone-backend-j5yz.onrender.com'],
+  methods: ['GET' , 'POST'],
+  credentials: true
+}
+
+const io = socketio(server,  cors(corsoption));
 
 app.use(bodyparser.json())
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
-app.use(cors())
+app.use(cors(corsoption))
 
 
 // Serve uploads folder statically
