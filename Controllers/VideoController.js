@@ -25,10 +25,23 @@ exports.uploadvideo = async (req, res) => {
   try {
     const insertdata=await video(data)
     const result=await insertdata.save()
+    const base_url='https://youtube-clone-backend-j5yz.onrender.com';
+    let image_url=null
+    if(result.thumbnail){
+      let timestamp = result.uploadDate.getTime()
+      image_url=`${base_url}/uploads/video/thumbnail/${result.thumbnail}?v=${timestamp}`
+    }
+    let video_url=null
+    if(result.videofile){
+      let timestamp = result.uploadDate.getTime()
+      video_url=`${base_url}/uploads/video/videofile/${result.videofile}?v=${timestamp}`
+    }
     const obj={
       status:true,
       msg:"Uploaded a video..!",
-      _data:result
+      _data:result,
+      thumbnailurl: image_url,
+      videourl: video_url
     }
     return res.send(obj)
   } catch (error) {
