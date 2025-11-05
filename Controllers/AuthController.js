@@ -39,14 +39,18 @@ exports.register = async (request, response) => {
     const insertdata = await user(newUser)
     const result = await insertdata.save()
     var token = jwt.sign({ userdata: result }, process.env.secret_key)
-    
+    const base_url='https://youtube-clone-backend-j5yz.onrender.com';
+    let image_url=null
+    if(result.image){
+      let timestamp = result.updated_at.getTime()
+      image_url=`${base_url}/uploads/users/${result.image}?v=${timestamp}`
+    }
     const objectdata = {
       status: true,
       msg: "User registered successfully",
       _data: result,
-      image_url: `https://youtube-clone-backend-j5yz.onrender.com${result.image}`,
+      image_url: image_url,
       token: token,
-      password:hashedPassword
     }
     return response.send(objectdata)
   } catch (error) {
@@ -94,7 +98,7 @@ exports.login = async (request, response) => {
     return response.send(obj)
   }
 
-  if (existingUser.statu == false) {
+  if (existingUser.status == false) {
     const obj = {
       status: false,
       msg: "Your account has been deactivated. Please contact support.",
@@ -102,14 +106,20 @@ exports.login = async (request, response) => {
     }
     return response.send(obj)
   }
-
+  const base_url='https://youtube-clone-backend-j5yz.onrender.com';
+    let image_url=null
+    if(existingUser.image){
+      let timestamp = existingUser.updated_at.getTime()
+      image_url = `${base_url}/uploads/users/${existingUser.image}?v=${timestamp}`
+    }
   var token = jwt.sign({ userdata: existingUser }, process.env.secret_key)
 
   const objectdata = {
     status: true,
     msg: "User logged in successfully",
     _data: existingUser,
-    token: token
+    token: token,
+    imageurl: image_url
   }
   return response.send(objectdata)
 }
@@ -138,10 +148,17 @@ exports.viewProfile = async (request, response) => {
       }
       return response.send(obj)
     }
+    const base_url='https://youtube-clone-backend-j5yz.onrender.com';
+    let image_url=null
+    if(userdata.image){
+      let timestamp = userdata.updated_at.getTime()
+      image_url = `${base_url}/uploads/users/${userdata.image}?v=${timestamp}`
+    }
     const objectdata = {
       status: true,
       msg: "User profile fetched successfully",
-      _data: userdata
+      _data: userdata,
+      imageurl: image_url
     }
     return response.send(objectdata)
   } catch (error) {

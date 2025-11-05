@@ -77,7 +77,7 @@ const userSchema = new mongoose.Schema({
       date: { type: Date, required: true },
       videoId: { type: mongoose.Schema.Types.ObjectId, ref: 'Videos', required: true }
     }
-  ]
+  ],
 });
 
 const user = mongoose.model('Users', userSchema);
