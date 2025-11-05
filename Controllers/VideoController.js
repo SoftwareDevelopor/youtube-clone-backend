@@ -18,8 +18,8 @@ exports.uploadvideo = async (req, res) => {
   
   const data = {
     ...req.body,
-    thumbnail: req.files.thumbnail[0].path,
-    videofile: req.files.videofile[0].path
+    thumbnail: req.files.thumbnail[0].filename,
+    videofile: req.files.videofile[0].filename
   };
   
   try {

@@ -16,9 +16,9 @@ module.exports = (app) => {
   const storage = multer.diskStorage({
     destination: (req, file, cb) => {
       if (file.fieldname == 'videofile') {
-        cb(null, path.join(__dirname, '..', 'uploads', 'videos', 'videofile'));
+        cb(null, 'uploads/videos/videofile');
       } else if (file.fieldname == 'thumbnail') {
-        cb(null, path.join(__dirname, '..', 'uploads', 'videos', 'thumbnails'));
+        cb(null, 'uploads/videos/thumbnails');
       } else {
         cb(new Error('Invalid field name'), null);
       }
