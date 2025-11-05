@@ -66,7 +66,18 @@ exports.getallvideos=async(request,response)=>{
         _data: []
       });
     }
-
+    // console.log(video)
+    // const base_url='https://youtube-clone-backend-j5yz.onrender.com';
+    // let image_url=null
+    // if(videos.thumbnail){
+    //   let timestamp = result.uploadDate.getTime()
+    //   image_url=`${base_url}/uploads/video/thumbnail/${result.thumbnail}?v=${timestamp}`
+    // }
+    // let video_url=null
+    // if(result.videofile){
+    //   let timestamp = result.uploadDate.getTime()
+    //   video_url=`${base_url}/uploads/video/videofile/${result.videofile}?v=${timestamp}`
+    // }
     const obj = {
       status: true,
       msg: "Videos fetched successfully",
@@ -102,10 +113,23 @@ exports.viewVideo=async(request,response)=>{
         _data: null
       })
     }
+    const base_url='https://youtube-clone-backend-j5yz.onrender.com'
+    let thumbnailurl=null
+    if(updated.thumbnail){
+      let timestamp=updated.uploadDate.getTime()
+      thumbnailurl=`${base_url}/uploads/video/videofile/${updated.thumbnail}?v=${timestamp}`
+    }
+    let videourl=null
+    if(updated.thumbnail){
+      let timestamp=updated.uploadDate.getTime()
+      videourl=`${base_url}/uploads/video/videofile/${updated.videofile}?v=${timestamp}`
+    }
     const obj={
       status:true,
       msg:"Video Found..!",
-    _data:updated
+      _data:updated,
+      thumbnailURL : thumbnailurl,
+      videoURL: videourl
     }
     return response.send(obj)
   }catch(error){
