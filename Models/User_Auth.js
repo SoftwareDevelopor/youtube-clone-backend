@@ -3,7 +3,13 @@ const mongoose = require('mongoose');
 const userSchema = new mongoose.Schema({
   name: {
     type: String,
-    default: ''
+    // required: [true, 'Name is required']    
+    validate: {
+      validator: async function(v) {
+        const count = await this.constructor.findOne({ name: v });
+      },
+      message: (props) => `${props.value} already exists!`,
+    }
   },
   email: {
     type: String,
