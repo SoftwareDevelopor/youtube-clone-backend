@@ -24,12 +24,11 @@ exports.register = async (request, response) => {
 
   let saltRounds=10
   const hashedPassword = await bcrypt.hash(request.body.password, saltRounds)
-  const newUser = new user({
+  const newUser = {
     name: request.body.name,
     email: request.body.email,
     password: hashedPassword,
-    username: request.body.username ? request.body.username : request.body.name
-  })
+  }
 
   if (request.file) {
     newUser.image = request.file.path.replace('/opt/render/project/src','')

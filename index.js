@@ -111,7 +111,7 @@ app.get("/", (request, response) => {
 require('./routes/AuthRoute.js')(app);
 require('./routes/VideoRoute.js')(app);
 
-const dburl = process.env.DB_URL || process.env.DB_URL_LOCAL;
+const dburl = process.env.DB_URL;
 // Connect to MongoDB first, then start the HTTP server (with socket.io)
 mongoose
   .connect(dburl)
