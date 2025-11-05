@@ -1,9 +1,8 @@
 const express = require('express');
-const { register, login, viewProfile, updateprofile, changepassword, forgotPassword, resetPassword, incrementpoints, subscribe, decrementsubscribe } = require('../Controllers/AuthController');
+const { register, login, viewProfile, updateprofile, changepassword, forgotPassword, resetPassword, incrementpoints, subscribe, decrementsubscribe, hasFreeDownloadToday, activatePremium, checkPremiumStatus } = require('../Controllers/AuthController');
 const authRouter = express.Router();
 const multer = require('multer')
 const path = require('path');
-const { hasFreeDownloadToday, activatePremium, checkPremiumStatus } = require('../Controllers/UserController');
 const uploads = multer({
     dest: "uploads/users",
 });
